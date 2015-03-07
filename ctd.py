@@ -34,10 +34,10 @@ if args.exclude_file and os.path.exists(args.exclude_file):
         excludes.append(line.strip())
 
 for dirpath, dirnames, filenames in os.walk(args.input_path):
-    print(dirpath)
     if not isexcluded(dirpath, excludes):
+        print(dirpath)
         for dirname in dirnames:
             print('  {}/'.format(dirname))
         for filename in filenames:
             print('  {}'.format(filename))
-    print()
+        print()
