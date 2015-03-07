@@ -10,15 +10,28 @@ def process_command_line_arguments():
 
     parser.add_argument('outputfile', help='Output file name')
 
+    help = 'Path to exclude file. ' \
+           'Paths included there will be listed ' \
+           'but not traversed'
+    parser.add_argument('--exclude-file',
+        help=help, default='')
+
     args=parser.parse_args()
     return args
 
 args = process_command_line_arguments()
 
+excludes = []
+if args.exclude_file and os.path.exists(args.exclude_file):
+    f = open(args.exclude_file)
+    for line in f:
+        excludes.append(line.strip())
+
 for dirpath, dirnames, filenames in os.walk(args.input_path):
     print(dirpath)
-    for dirname in dirnames:
-        print('  {}/'.format(dirname))
-    for filename in filenames:
-        print('  {}'.format(filename))
+    if dirpath not in excludes:
+        for dirname in dirnames:
+            print('  {}/'.format(dirname))
+        for filename in filenames:
+            print('  {}'.format(filename))
     print()
