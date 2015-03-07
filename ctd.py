@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def process_command_line_arguments():
@@ -13,3 +14,11 @@ def process_command_line_arguments():
     return args
 
 args = process_command_line_arguments()
+
+for dirpath, dirnames, filenames in os.walk(args.input_path):
+    print(dirpath)
+    for dirname in dirnames:
+        print('  {}/'.format(dirname))
+    for filename in filenames:
+        print('  {}'.format(filename))
+    print()
