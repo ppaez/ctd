@@ -19,6 +19,12 @@ def process_command_line_arguments():
     args=parser.parse_args()
     return args
 
+def isexcluded(path, excludes):
+    for exclude in excludes:
+        if path.startswith(exclude):
+            return True
+    return False
+
 args = process_command_line_arguments()
 
 excludes = []
@@ -29,7 +35,7 @@ if args.exclude_file and os.path.exists(args.exclude_file):
 
 for dirpath, dirnames, filenames in os.walk(args.input_path):
     print(dirpath)
-    if dirpath not in excludes:
+    if not isexcluded(dirpath, excludes):
         for dirname in dirnames:
             print('  {}/'.format(dirname))
         for filename in filenames:
